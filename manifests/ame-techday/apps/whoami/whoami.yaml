@@ -1,0 +1,27 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: soccrates-whoami
+  namespace: whoami
+spec:
+  interval: 5m
+  url: https://gitlab.com/api/v4/projects/37200623/packages/helm/stable
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: whoami
+  namespace: whoami
+spec:
+  releaseName: whoami
+  chart:
+    spec:
+      chart: whoami
+      version: 0.1.4
+      sourceRef:
+        kind: HelmRepository
+        name: soccrates-whoami
+        namespace: whoami
+  interval: 5m
+  values:
